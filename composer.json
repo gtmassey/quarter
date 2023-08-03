@@ -3,7 +3,6 @@
     "description": "Easily retrieve start and end dates for calendar quarters or fiscal quarters for any year. An extension of gtmassey/period",
     "keywords": [
         "gtmassey",
-        "laravel",
         "period",
         "quarter"
     ],
@@ -17,11 +16,9 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "illuminate/contracts": "^9.0|^10.0",
+        "php": "^8.1||^8.2",
         "nesbot/carbon": "^2.64",
-        "spatie/laravel-package-tools": "^1.13.0",
-        "gtmassey/period": "^1.0"
+        "gtmassey/period": "^1.1.0"
     },
     "require-dev": {
         "laravel/pint": "^1.2.1",
@@ -56,16 +53,6 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Gtmassey\\Quarter\\QuarterServiceProvider"
-            ],
-            "aliases": {
-                "Quarter": "Gtmassey\\Quarter\\Quarter"
-            }
         }
     },
     "minimum-stability": "dev",

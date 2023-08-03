@@ -147,6 +147,17 @@ Note that if you try to use the `fiscal()` method on the `current()` method, it 
 
 This can lead to some unexpected results. If you wish to calculate the current fiscal quarter, you can simply use `current()` to get the current quarter's start and end dates, and then you can use the `next()` and `previous()` methods to traverse throughout the quarters. 
 
+### Laravel Note:
+
+The parent `Period` class is written specifically for Laravel because it is an extracted package from the [gtmassey/laravel-analytics](https://github.com/gtmassey/laravel-analytics) package. However, the Quarter class does not need Laravel to function. If you want to use the `Quarter` class in Laravel, you can add the class to your `config/app.php` aliases array:
+
+```php
+'aliases' => Facade::defaultAliases()->merge([
+    // 'Example' => App\Facades\Example::class,
+    'Quarter' => Gtmassey\Quarter\Quarter::class,
+])->toArray(),
+```
+
 ## Testing
 
 ```bash
