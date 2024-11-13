@@ -86,26 +86,52 @@ Gtmassey\Period\Period {
 
 ### Changing Calendar Types
 
-So far, the quarter methods have been assuming a calendar year for the quarter dates. If you want to use the fiscal year in which the first quarter starts on July 1, you can chain the `fiscal()` method:
+So far, the quarter methods have been assuming a calendar year for the quarter dates. If you want to use the fiscal year in which the first quarter starts on July 1, you can chain the `toFiscal()` method:
 
 ```php
 //July 1, YYYY - September 30, YYYY
-Quarter::first()->fiscal();
+Quarter::first()->toFiscal();
 ```
 
-You can chain the `year` and `fiscal` methods together:
+You can chain the `year()` and `toFiscal()` methods together:
 
 ```php
 //July 1, 1995 - September 30, 1995
-Quarter::first()->year(1995)->fiscal();
+Quarter::first()->year(1995)->toFiscal();
 ```
 
 and if you want the resulting object to be an instance of the parent `Period` class, you can chain the `asPeriod()` method:
 
 ```php
 //July 1, 1995 - September 30, 1995
-Quarter::first()->year(1995)->fiscal()->asPeriod();
+Quarter::first()->year(1995)->toFiscal()->asPeriod();
 ```
+
+The `toFiscal()` method creates a new `Quarter` instance that is 6 months ahead of the current `Quarter`.
+
+```php
+//Jan 1, YYYY - Mar 31, YYYY
+Quarter::first();
+
+//Jul 1, YYYY - Sep 30, YYY
+Quarter::first()->toFiscal();
+```
+
+If you wish to convert the current `Quarter` instance into a fiscal representation, you can use the `asFiscal()` method. 
+
+The difference between `toFiscal()` and `asFiscal()` is that the `asFiscal()` keeps the start and end dates the same, it just changes the instance's name to be the correct representation in a fiscal calendar.
+
+```php
+//Jul 1, YYYY - Sep 30, YYYY
+//Q3
+Quarter::third();
+
+//Jul 1, YYYY - Sep 30, YYYY
+//Q1
+Quarter::first()->toFiscal();
+```
+
+Using the `asFiscal()` method preserves the start and end dates of the quarter, but changes the `name` and `isFiscal` properties on the object.
 
 ### Start and End Dates Only
 
@@ -142,10 +168,6 @@ Finally, you can access the current quarter by calling the `current()` method:
 $current = Quarter::current();
 //return the dates for the current quarter, regardless of calendar or fiscal dates.
 ```
-
-Note that if you try to use the `fiscal()` method on the `current()` method, it will not throw an exception, but it will return quarter dates six months ahead. This is because `Quarter::first()` assumes January 1st for the start date, and `Quarter::first()->fiscal()` adds six months to achieve the July 1 start date. 
-
-This can lead to some unexpected results. If you wish to calculate the current fiscal quarter, you can simply use `current()` to get the current quarter's start and end dates, and then you can use the `next()` and `previous()` methods to traverse throughout the quarters. 
 
 ### Laravel Note:
 
