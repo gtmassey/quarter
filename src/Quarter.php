@@ -33,17 +33,19 @@ class Quarter extends Period
 
             if ($this->isFiscal) {
                 $this->name = match ($month) {
-                    1 => 'Q3',
-                    4 => 'Q4',
-                    7 => 'Q1',
-                    10 => 'Q2',
+                    1, 2, 3 => 'Q3',
+                    4, 5, 6 => 'Q4',
+                    7, 8, 9 => 'Q1',
+                    10, 11, 12 => 'Q2',
+                    default => 'N/A',
                 };
             } else {
                 $this->name = match ($month) {
-                    1 => 'Q1',
-                    4 => 'Q2',
-                    7 => 'Q3',
-                    10 => 'Q4',
+                    1, 2, 3 => 'Q1',
+                    4, 5, 6 => 'Q2',
+                    7, 8, 9 => 'Q3',
+                    10, 11, 12 => 'Q4',
+                    default => 'N/A',
                 };
             }
         } else {
@@ -56,23 +58,6 @@ class Quarter extends Period
      * @throws \Exception
      */
     public static function current(): self
-    {
-        $today = CarbonImmutable::today();
-        //given today's date, determine the current calendar quarter
-        //1st quarter = Jan, Feb, Mar
-        //2nd quarter = Apr, May, Jun
-        //3rd quarter = Jul, Aug, Sep
-        //4th quarter = Oct, Nov, Dec
-        return match ($today->month) {
-            1, 2, 3 => self::first(),
-            4, 5, 6 => self::second(),
-            7, 8, 9 => self::third(),
-            10, 11, 12 => self::fourth(),
-            default => throw new \Exception('Invalid month'),
-        };
-    }
-
-    public static function currentCal(): self
     {
         $today = CarbonImmutable::today();
         //given today's date, determine the current calendar quarter
@@ -123,6 +108,23 @@ class Quarter extends Period
             endDate: $startOfYear->addMonths(2)->endOfMonth(),
             name: "Q4",
         );
+    }
+
+    public static function currentCal(): self
+    {
+        $today = CarbonImmutable::today();
+        //given today's date, determine the current calendar quarter
+        //1st quarter = Jan, Feb, Mar
+        //2nd quarter = Apr, May, Jun
+        //3rd quarter = Jul, Aug, Sep
+        //4th quarter = Oct, Nov, Dec
+        return match ($today->month) {
+            1, 2, 3 => self::first(),
+            4, 5, 6 => self::second(),
+            7, 8, 9 => self::third(),
+            10, 11, 12 => self::fourth(),
+            default => throw new \Exception('Invalid month'),
+        };
     }
 
     /**
