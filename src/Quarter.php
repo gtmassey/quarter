@@ -21,14 +21,13 @@ class Quarter extends Period
     public function __construct(
         CarbonImmutable $startDate,
         CarbonImmutable $endDate,
-        ?string         $name = null,
-        bool            $isFiscal = false,
-    )
-    {
+        ?string $name = null,
+        bool $isFiscal = false,
+    ) {
         parent::__construct($startDate, $endDate);
         $this->isFiscal = $isFiscal;
 
-        if (!isset($name)) {
+        if (! isset($name)) {
             $month = $startDate->month;
 
             if ($this->isFiscal) {
@@ -53,6 +52,14 @@ class Quarter extends Period
         }
     }
 
+    public static function getCurrentFiscalYear(): int
+    {
+        $today = CarbonImmutable::today();
+
+        return $today->month >= 7
+            ? $today->year
+            : $today->year - 1;
+    }
 
     /**
      * @throws \Exception
@@ -60,6 +67,7 @@ class Quarter extends Period
     public static function current(): self
     {
         $today = CarbonImmutable::today();
+
         //given today's date, determine the current calendar quarter
         //1st quarter = Jan, Feb, Mar
         //2nd quarter = Apr, May, Jun
@@ -79,7 +87,7 @@ class Quarter extends Period
         return new Quarter(
             startDate: $startOfYear = CarbonImmutable::today()->startOfYear(),
             endDate: $startOfYear->addMonths(2)->endOfMonth(),
-            name: "Q1",
+            name: 'Q1',
         );
     }
 
@@ -88,7 +96,7 @@ class Quarter extends Period
         return new Quarter(
             startDate: $startOfYear = CarbonImmutable::today()->startOfYear()->addMonths(3),
             endDate: $startOfYear->addMonths(2)->endOfMonth(),
-            name: "Q2",
+            name: 'Q2',
         );
     }
 
@@ -97,7 +105,7 @@ class Quarter extends Period
         return new Quarter(
             startDate: $startOfYear = CarbonImmutable::today()->startOfYear()->addMonths(6),
             endDate: $startOfYear->addMonths(2)->endOfMonth(),
-            name: "Q3",
+            name: 'Q3',
         );
     }
 
@@ -106,13 +114,14 @@ class Quarter extends Period
         return new Quarter(
             startDate: $startOfYear = CarbonImmutable::today()->startOfYear()->addMonths(9),
             endDate: $startOfYear->addMonths(2)->endOfMonth(),
-            name: "Q4",
+            name: 'Q4',
         );
     }
 
     public static function currentCal(): self
     {
         $today = CarbonImmutable::today();
+
         //given today's date, determine the current calendar quarter
         //1st quarter = Jan, Feb, Mar
         //2nd quarter = Apr, May, Jun
@@ -128,7 +137,7 @@ class Quarter extends Period
     }
 
     /**
-     * @param int $year (format YYYY)
+     * @param  int  $year  (format YYYY)
      * @return $this
      */
     public function year(int $year): self
@@ -142,7 +151,8 @@ class Quarter extends Period
 
     public function next(): self
     {
-        $nextName = 'Q' . (($this->name === 'Q4') ? 1 : (int)substr($this->name, 1) + 1);
+        $nextName = 'Q'.(($this->name === 'Q4') ? 1 : (int) substr($this->name, 1) + 1);
+
         return new Quarter(
             startDate: $this->endDate->addDays()->setTime(0, 0, 0),
             endDate: $this->endDate->addDay()->addMonths(2)->endOfMonth(),
@@ -153,7 +163,8 @@ class Quarter extends Period
 
     public function previous(): self
     {
-        $prevName = 'Q' . (($this->name === 'Q1') ? 4 : (int)substr($this->name, 1) - 1);
+        $prevName = 'Q'.(($this->name === 'Q1') ? 4 : (int) substr($this->name, 1) - 1);
+
         return new Quarter(
             startDate: $this->startDate->subDay()->subMonths(2)->startOfMonth(),
             endDate: $this->startDate->subDay()->setTime(23, 59, 59, 999999),
@@ -179,7 +190,7 @@ class Quarter extends Period
     public function asFiscal(): self
     {
         $this->isFiscal = true;
-        $this->name = 'Q' . ((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
+        $this->name = 'Q'.((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
 
         return $this;
     }
@@ -204,8 +215,6 @@ class Quarter extends Period
 
     /**
      * Returns the name of the quarter in a format like "Q1 CY24" or "Q1 FY25".
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -214,11 +223,11 @@ class Quarter extends Period
         if ($this->isFiscal) {
             // Fiscal year logic: if the start date is on or after July 1, use the next calendar year
             $fiscalYear = $this->startDate->month >= 7 ? $year + 1 : $year;
-            return "{$this->name} FY" . substr($fiscalYear, -2);
+
+            return "{$this->name} FY".substr($fiscalYear, -2);
         } else {
             // Calendar year logic
-            return "{$this->name} CY" . substr($year, -2);
+            return "{$this->name} CY".substr($year, -2);
         }
     }
-
 }
