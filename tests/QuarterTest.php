@@ -35,8 +35,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::first();
 
-        $this->assertEquals($year . '-01-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-03-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-01-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-03-31', $firstQuarter->endDate->toDateString());
     }
 
     public function test_second_calendar_quarter(): void
@@ -45,8 +45,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::second();
 
-        $this->assertEquals($year . '-04-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-06-30', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-04-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-06-30', $firstQuarter->endDate->toDateString());
     }
 
     public function test_third_calendar_quarter(): void
@@ -55,8 +55,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::third();
 
-        $this->assertEquals($year . '-07-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-09-30', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-07-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-09-30', $firstQuarter->endDate->toDateString());
     }
 
     public function test_fourth_calendar_quarter(): void
@@ -65,8 +65,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::fourth();
 
-        $this->assertEquals($year . '-10-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-12-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-10-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-12-31', $firstQuarter->endDate->toDateString());
     }
 
     public function test_first_fiscal_quarter(): void
@@ -75,8 +75,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::first()->toFiscal();
 
-        $this->assertEquals($fiscalYear . '-07-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($fiscalYear . '-09-30', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($fiscalYear.'-07-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($fiscalYear.'-09-30', $firstQuarter->endDate->toDateString());
     }
 
     public function test_second_fiscal_quarter(): void
@@ -85,8 +85,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::second()->toFiscal();
 
-        $this->assertEquals($fiscalYear . '-10-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($fiscalYear . '-12-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($fiscalYear.'-10-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($fiscalYear.'-12-31', $firstQuarter->endDate->toDateString());
     }
 
     public function test_third_fiscal_quarter(): void
@@ -95,8 +95,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::third()->toFiscal();
 
-        $this->assertEquals($fiscalYear + 1 . '-01-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($fiscalYear + 1 . '-03-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($fiscalYear + 1 .'-01-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($fiscalYear + 1 .'-03-31', $firstQuarter->endDate->toDateString());
     }
 
     public function test_fourth_fiscal_quarter(): void
@@ -105,8 +105,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::fourth()->toFiscal();
 
-        $this->assertEquals($fiscalYear + 1 . '-04-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($fiscalYear + 1 . '-06-30', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($fiscalYear + 1 .'-04-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($fiscalYear + 1 .'-06-30', $firstQuarter->endDate->toDateString());
     }
 
     public function test_get_next_quarter(): void
@@ -115,8 +115,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::first()->next();
 
-        $this->assertEquals($year . '-04-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-06-30', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-04-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-06-30', $firstQuarter->endDate->toDateString());
     }
 
     public function test_get_previous_quarter(): void
@@ -125,8 +125,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::first()->previous();
 
-        $this->assertEquals($year - 1 . '-10-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year - 1 . '-12-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year - 1 .'-10-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year - 1 .'-12-31', $firstQuarter->endDate->toDateString());
     }
 
     public function test_get_quarter_as_period_object(): void
@@ -135,8 +135,8 @@ class QuarterTest extends TestCase
 
         $firstQuarter = Quarter::first()->asPeriod();
 
-        $this->assertEquals($year . '-01-01', $firstQuarter->startDate->toDateString());
-        $this->assertEquals($year . '-03-31', $firstQuarter->endDate->toDateString());
+        $this->assertEquals($year.'-01-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year.'-03-31', $firstQuarter->endDate->toDateString());
         $this->assertInstanceOf(Period::class, $firstQuarter);
     }
 
@@ -158,16 +158,16 @@ class QuarterTest extends TestCase
         $fourthFiscalQuarter = Quarter::fourth()->toFiscal();
 
         // Assertions for calendar year quarters
-        $this->assertEquals('Q1 CY' . substr($calendarYear, -2), $firstCalendarQuarter->getName());
-        $this->assertEquals('Q2 CY' . substr($calendarYear, -2), $secondCalendarQuarter->getName());
-        $this->assertEquals('Q3 CY' . substr($calendarYear, -2), $thirdCalendarQuarter->getName());
-        $this->assertEquals('Q4 CY' . substr($calendarYear, -2), $fourthCalendarQuarter->getName());
+        $this->assertEquals('Q1 CY'.substr($calendarYear, -2), $firstCalendarQuarter->getName());
+        $this->assertEquals('Q2 CY'.substr($calendarYear, -2), $secondCalendarQuarter->getName());
+        $this->assertEquals('Q3 CY'.substr($calendarYear, -2), $thirdCalendarQuarter->getName());
+        $this->assertEquals('Q4 CY'.substr($calendarYear, -2), $fourthCalendarQuarter->getName());
 
         // Assertions for fiscal year quarters
-        $this->assertEquals('Q1 FY' . substr($fiscalYear, -2), $firstFiscalQuarter->getName());
-        $this->assertEquals('Q2 FY' . substr($fiscalYear, -2), $secondFiscalQuarter->getName());
-        $this->assertEquals('Q3 FY' . substr($fiscalYear, -2), $thirdFiscalQuarter->getName());
-        $this->assertEquals('Q4 FY' . substr($fiscalYear, -2), $fourthFiscalQuarter->getName());
+        $this->assertEquals('Q1 FY'.substr($fiscalYear, -2), $firstFiscalQuarter->getName());
+        $this->assertEquals('Q2 FY'.substr($fiscalYear, -2), $secondFiscalQuarter->getName());
+        $this->assertEquals('Q3 FY'.substr($fiscalYear, -2), $thirdFiscalQuarter->getName());
+        $this->assertEquals('Q4 FY'.substr($fiscalYear, -2), $fourthFiscalQuarter->getName());
     }
 
     public function test_current_quarter_names(): void
@@ -181,24 +181,23 @@ class QuarterTest extends TestCase
 
         // Determine expected quarter names based on the current date
         $expectedCalendarQuarter = match (CarbonImmutable::today()->quarter) {
-            1 => 'Q1 CY' . substr($calendarYear, -2),
-            2 => 'Q2 CY' . substr($calendarYear, -2),
-            3 => 'Q3 CY' . substr($calendarYear, -2),
-            4 => 'Q4 CY' . substr($calendarYear, -2),
+            1 => 'Q1 CY'.substr($calendarYear, -2),
+            2 => 'Q2 CY'.substr($calendarYear, -2),
+            3 => 'Q3 CY'.substr($calendarYear, -2),
+            4 => 'Q4 CY'.substr($calendarYear, -2),
         };
 
         $expectedFiscalQuarter = match (CarbonImmutable::today()->quarter) {
-            1 => 'Q3 FY' . substr($fiscalYear - 1, -2),
-            2 => 'Q4 FY' . substr($fiscalYear - 1, -2),
-            3 => 'Q1 FY' . substr($fiscalYear - 1, -2),
-            4 => 'Q2 FY' . substr($fiscalYear - 1, -2),
+            1 => 'Q3 FY'.substr($fiscalYear - 1, -2),
+            2 => 'Q4 FY'.substr($fiscalYear - 1, -2),
+            3 => 'Q1 FY'.substr($fiscalYear - 1, -2),
+            4 => 'Q2 FY'.substr($fiscalYear - 1, -2),
         };
 
-        //dd($expectedCalendarQuarter, $expectedFiscalQuarter);
+        // dd($expectedCalendarQuarter, $expectedFiscalQuarter);
 
         // Assertions for current calendar and fiscal quarters
         $this->assertEquals($expectedCalendarQuarter, $currentCalendarQuarter->getName());
         $this->assertEquals($expectedFiscalQuarter, $currentFiscalQuarter->getName());
     }
-
 }

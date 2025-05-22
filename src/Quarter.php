@@ -21,14 +21,13 @@ class Quarter extends Period
     public function __construct(
         CarbonImmutable $startDate,
         CarbonImmutable $endDate,
-        ?string         $name = null,
-        bool            $isFiscal = false,
-    )
-    {
+        ?string $name = null,
+        bool $isFiscal = false,
+    ) {
         parent::__construct($startDate, $endDate);
         $this->isFiscal = $isFiscal;
 
-        if (!isset($name)) {
+        if (! isset($name)) {
             $month = $startDate->month;
 
             if ($this->isFiscal) {
@@ -69,11 +68,11 @@ class Quarter extends Period
     {
         $today = CarbonImmutable::today();
 
-        //given today's date, determine the current calendar quarter
-        //1st quarter = Jan, Feb, Mar
-        //2nd quarter = Apr, May, Jun
-        //3rd quarter = Jul, Aug, Sep
-        //4th quarter = Oct, Nov, Dec
+        // given today's date, determine the current calendar quarter
+        // 1st quarter = Jan, Feb, Mar
+        // 2nd quarter = Apr, May, Jun
+        // 3rd quarter = Jul, Aug, Sep
+        // 4th quarter = Oct, Nov, Dec
         return match ($today->month) {
             1, 2, 3 => self::first(),
             4, 5, 6 => self::second(),
@@ -123,11 +122,11 @@ class Quarter extends Period
     {
         $today = CarbonImmutable::today();
 
-        //given today's date, determine the current calendar quarter
-        //1st quarter = Jan, Feb, Mar
-        //2nd quarter = Apr, May, Jun
-        //3rd quarter = Jul, Aug, Sep
-        //4th quarter = Oct, Nov, Dec
+        // given today's date, determine the current calendar quarter
+        // 1st quarter = Jan, Feb, Mar
+        // 2nd quarter = Apr, May, Jun
+        // 3rd quarter = Jul, Aug, Sep
+        // 4th quarter = Oct, Nov, Dec
         return match ($today->month) {
             1, 2, 3 => self::first(),
             4, 5, 6 => self::second(),
@@ -138,12 +137,12 @@ class Quarter extends Period
     }
 
     /**
-     * @param int $year (format YYYY)
+     * @param  int  $year  (format YYYY)
      * @return $this
      */
     public function year(int $year): self
     {
-        //given the year, we need to mutate $this to be the same year
+        // given the year, we need to mutate $this to be the same year
         $this->startDate = $this->startDate->setYear($year);
         $this->endDate = $this->endDate->setYear($year);
 
@@ -152,7 +151,7 @@ class Quarter extends Period
 
     public function next(): self
     {
-        $nextName = 'Q' . (($this->name === 'Q4') ? 1 : (int)substr($this->name, 1) + 1);
+        $nextName = 'Q'.(($this->name === 'Q4') ? 1 : (int) substr($this->name, 1) + 1);
 
         return new Quarter(
             startDate: $this->endDate->addDays()->setTime(0, 0, 0),
@@ -164,7 +163,7 @@ class Quarter extends Period
 
     public function previous(): self
     {
-        $prevName = 'Q' . (($this->name === 'Q1') ? 4 : (int)substr($this->name, 1) - 1);
+        $prevName = 'Q'.(($this->name === 'Q1') ? 4 : (int) substr($this->name, 1) - 1);
 
         return new Quarter(
             startDate: $this->startDate->subDay()->subMonths(2)->startOfMonth(),
@@ -182,7 +181,7 @@ class Quarter extends Period
         // If the start date is before July 1 of its year, it's in the prior fiscal year
         $fiscalYearStart = CarbonImmutable::create($date->year, 7, 1);
         if ($date->isBefore($fiscalYearStart)) {
-            //old return here
+            // old return here
             return new Quarter(
                 startDate: $this->startDate->subMonths(6),
                 endDate: $this->startDate->subMonths(6)->addMonths(2)->endOfMonth(),
@@ -210,7 +209,7 @@ class Quarter extends Period
     public function asFiscal(): self
     {
         $this->isFiscal = true;
-        $this->name = 'Q' . ((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
+        $this->name = 'Q'.((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
 
         return $this;
     }
@@ -239,10 +238,10 @@ class Quarter extends Period
             // Fiscal year logic: if the start date is on or after July 1, use the current calendar year
             $fiscalYear = $this->startDate->month < 7 ? $year - 1 : $year;
 
-            return "{$this->name} FY" . substr($fiscalYear, -2);
+            return "{$this->name} FY".substr($fiscalYear, -2);
         } else {
             // Calendar year logic
-            return "{$this->name} CY" . substr($year, -2);
+            return "{$this->name} CY".substr($year, -2);
         }
     }
 }
