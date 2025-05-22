@@ -203,12 +203,12 @@ class QuarterTest extends TestCase
     {
         $today = CarbonImmutable::today();
 
-        //if $today is before July 1st of the current year, then the expected start date for
-        //the fiscal year is July 1st of the previous calendar year
-        if($today->isBefore(CarbonImmutable::parse(CarbonImmutable::today()->format('Y')) . '-07-01')) {
-            $expectedQ1StartDate =  CarbonImmutable::parse((CarbonImmutable::today()->format('Y') - 1) . '-07-01');
+        // if $today is before July 1st of the current year, then the expected start date for
+        // the fiscal year is July 1st of the previous calendar year
+        if ($today->isBefore(CarbonImmutable::parse(CarbonImmutable::today()->format('Y')).'-07-01')) {
+            $expectedQ1StartDate = CarbonImmutable::parse((CarbonImmutable::today()->format('Y') - 1).'-07-01');
         } else {
-            $expectedQ1StartDate =  CarbonImmutable::parse(CarbonImmutable::today()->format('Y') . '-07-01');
+            $expectedQ1StartDate = CarbonImmutable::parse(CarbonImmutable::today()->format('Y').'-07-01');
         }
 
         $FYQ1 = Quarter::first()->year(Quarter::getCurrentFiscalYear())->toFiscal();

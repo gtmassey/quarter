@@ -68,11 +68,11 @@ class Quarter extends Period
     {
         $today = CarbonImmutable::today();
 
-        //given today's date, determine the current calendar quarter
-        //1st quarter = Jan, Feb, Mar
-        //2nd quarter = Apr, May, Jun
-        //3rd quarter = Jul, Aug, Sep
-        //4th quarter = Oct, Nov, Dec
+        // given today's date, determine the current calendar quarter
+        // 1st quarter = Jan, Feb, Mar
+        // 2nd quarter = Apr, May, Jun
+        // 3rd quarter = Jul, Aug, Sep
+        // 4th quarter = Oct, Nov, Dec
         return match ($today->month) {
             1, 2, 3 => self::first(),
             4, 5, 6 => self::second(),
@@ -122,11 +122,11 @@ class Quarter extends Period
     {
         $today = CarbonImmutable::today();
 
-        //given today's date, determine the current calendar quarter
-        //1st quarter = Jan, Feb, Mar
-        //2nd quarter = Apr, May, Jun
-        //3rd quarter = Jul, Aug, Sep
-        //4th quarter = Oct, Nov, Dec
+        // given today's date, determine the current calendar quarter
+        // 1st quarter = Jan, Feb, Mar
+        // 2nd quarter = Apr, May, Jun
+        // 3rd quarter = Jul, Aug, Sep
+        // 4th quarter = Oct, Nov, Dec
         return match ($today->month) {
             1, 2, 3 => self::first(),
             4, 5, 6 => self::second(),
@@ -142,7 +142,7 @@ class Quarter extends Period
      */
     public function year(int $year): self
     {
-        //given the year, we need to mutate $this to be the same year
+        // given the year, we need to mutate $this to be the same year
         $this->startDate = $this->startDate->setYear($year);
         $this->endDate = $this->endDate->setYear($year);
 
