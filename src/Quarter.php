@@ -21,13 +21,14 @@ class Quarter extends Period
     public function __construct(
         CarbonImmutable $startDate,
         CarbonImmutable $endDate,
-        ?string $name = null,
-        bool $isFiscal = false,
-    ) {
+        ?string         $name = null,
+        bool            $isFiscal = false,
+    )
+    {
         parent::__construct($startDate, $endDate);
         $this->isFiscal = $isFiscal;
 
-        if (! isset($name)) {
+        if (!isset($name)) {
             $month = $startDate->month;
 
             if ($this->isFiscal) {
@@ -137,7 +138,7 @@ class Quarter extends Period
     }
 
     /**
-     * @param  int  $year  (format YYYY)
+     * @param int $year (format YYYY)
      * @return $this
      */
     public function year(int $year): self
@@ -151,7 +152,7 @@ class Quarter extends Period
 
     public function next(): self
     {
-        $nextName = 'Q'.(($this->name === 'Q4') ? 1 : (int) substr($this->name, 1) + 1);
+        $nextName = 'Q' . (($this->name === 'Q4') ? 1 : (int)substr($this->name, 1) + 1);
 
         return new Quarter(
             startDate: $this->endDate->addDays()->setTime(0, 0, 0),
@@ -163,7 +164,7 @@ class Quarter extends Period
 
     public function previous(): self
     {
-        $prevName = 'Q'.(($this->name === 'Q1') ? 4 : (int) substr($this->name, 1) - 1);
+        $prevName = 'Q' . (($this->name === 'Q1') ? 4 : (int)substr($this->name, 1) - 1);
 
         return new Quarter(
             startDate: $this->startDate->subDay()->subMonths(2)->startOfMonth(),
@@ -175,11 +176,30 @@ class Quarter extends Period
 
     public function toFiscal(): self
     {
+        $date = $this->startDate()->copy();
+
+        // Determine the current fiscal year for the given start date
+        // If the start date is before July 1 of its year, it's in the prior fiscal year
+        $fiscalYearStart = CarbonImmutable::create($date->year, 7, 1);
+        if ($date->isBefore($fiscalYearStart)) {
+            //old return here
+            return new Quarter(
+                startDate: $this->startDate->subMonths(6),
+                endDate: $this->startDate->subMonths(6)->addMonths(2)->endOfMonth(),
+                isFiscal: true,
+            );
+        }
+
         return new Quarter(
-            startDate: $this->startDate->addMonths(6),
-            endDate: $this->startDate->addMonths(6)->addMonths(2)->endOfMonth(),
+            startDate: $this->startDate->addMonths(6)->subYear(),
+            endDate: $this->startDate->addMonths(6)->addMonths(2)->endOfMonth()->subYear(),
             isFiscal: true,
         );
+    }
+
+    public function startDate(): CarbonImmutable
+    {
+        return $this->startDate;
     }
 
     /**
@@ -190,14 +210,9 @@ class Quarter extends Period
     public function asFiscal(): self
     {
         $this->isFiscal = true;
-        $this->name = 'Q'.((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
+        $this->name = 'Q' . ((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
 
         return $this;
-    }
-
-    public function startDate(): CarbonImmutable
-    {
-        return $this->startDate;
     }
 
     public function endDate(): CarbonImmutable
@@ -221,13 +236,13 @@ class Quarter extends Period
         $year = $this->startDate->year;
 
         if ($this->isFiscal) {
-            // Fiscal year logic: if the start date is on or after July 1, use the next calendar year
-            $fiscalYear = $this->startDate->month >= 7 ? $year + 1 : $year;
+            // Fiscal year logic: if the start date is on or after July 1, use the current calendar year
+            $fiscalYear = $this->startDate->month < 7 ? $year - 1 : $year;
 
-            return "{$this->name} FY".substr($fiscalYear, -2);
+            return "{$this->name} FY" . substr($fiscalYear, -2);
         } else {
             // Calendar year logic
-            return "{$this->name} CY".substr($year, -2);
+            return "{$this->name} CY" . substr($year, -2);
         }
     }
 }
