@@ -93,6 +93,20 @@ So far, the quarter methods have been assuming a calendar year for the quarter d
 Quarter::first()->toFiscal();
 ```
 
+Please note that when using the `toFiscal` method, the resulting object assumes that the _current year_ is the start of the fiscal year. That is, if the current year is 2022, but you are in the fiscal year FY21 (which starts on July 1, 2021, and ends on June 30, 2022), the `Quarter::first()->toFiscal()` will return a date of `July 1, 2022` instead of `July 1, 2021`, because it assumes the current year is the start of the fiscal year.
+
+To avoid this behavior, you can use the helper method `getCurrentFiscalYear()` or `currentFiscalYear()` and pass that into the `year()` method like so: 
+
+```php
+// example, say today's date is May 1, 2022.
+// this means that we are in Q2 of the calendar year 2022
+// but in Q4 of Fiscal Year 2021
+// to get the first quarter of the current fiscal year, you can do this:
+
+//July 1, 2021 - September 30, 2021
+Quarter::first()->year(Quarter::getCurrentFiscalYear())->toFiscal();
+```
+
 You can chain the `year()` and `toFiscal()` methods together:
 
 ```php
