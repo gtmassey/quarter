@@ -18,9 +18,7 @@
   "require": {
     "php": "^8.1|^8.2|^8.3",
     "gtmassey/period": "^1.1.0",
-    "nesbot/carbon": "^2.67|^3.9.1",
-    "phpstan/phpstan-mockery": "^1.1",
-    "phpstan/phpstan-phpunit": "^1.4"
+    "nesbot/carbon": "^2.67|^3.9.1"
   },
   "require-dev": {
     "larastan/larastan": "*",
@@ -28,6 +26,8 @@
     "nunomaduro/collision": "*",
     "orchestra/testbench": "^8.36|^10.3.0",
     "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan-mockery": "^1.1",
+    "phpstan/phpstan-phpunit": "^1.4",
     "phpstan/phpstan-deprecation-rules": "^1.2",
     "phpunit/phpunit": "^10.5|^11.5.3",
     "rregeer/phpunit-coverage-check": "^0.3.1"
