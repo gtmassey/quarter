@@ -21,14 +21,13 @@ class Quarter extends Period
     public function __construct(
         CarbonImmutable $startDate,
         CarbonImmutable $endDate,
-        ?string         $name = null,
-        bool            $isFiscal = false,
-    )
-    {
+        ?string $name = null,
+        bool $isFiscal = false,
+    ) {
         parent::__construct($startDate, $endDate);
         $this->isFiscal = $isFiscal;
 
-        if (!isset($name)) {
+        if (! isset($name)) {
             $month = $startDate->month;
 
             if ($this->isFiscal) {
@@ -138,7 +137,7 @@ class Quarter extends Period
     }
 
     /**
-     * @param int $year (format YYYY)
+     * @param  int  $year  (format YYYY)
      * @return $this
      */
     public function year(int $year): self
@@ -152,7 +151,7 @@ class Quarter extends Period
 
     public function next(): self
     {
-        $nextName = 'Q' . (($this->name === 'Q4') ? 1 : (int)substr($this->name, 1) + 1);
+        $nextName = 'Q'.(($this->name === 'Q4') ? 1 : (int) substr($this->name, 1) + 1);
 
         return new Quarter(
             startDate: $this->endDate->addDays()->setTime(0, 0, 0),
@@ -180,7 +179,7 @@ class Quarter extends Period
         return new self(
             startDate: $newStart,
             endDate: $newEnd,
-            name: 'Q' . $quarterNum,
+            name: 'Q'.$quarterNum,
             isFiscal: $this->isFiscal,
         );
     }
@@ -221,7 +220,7 @@ class Quarter extends Period
     public function asFiscal(): self
     {
         $this->isFiscal = true;
-        $this->name = 'Q' . ((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
+        $this->name = 'Q'.((intval(substr($this->name, 1)) + 2 - 1) % 4 + 1);
 
         return $this;
     }
@@ -250,10 +249,10 @@ class Quarter extends Period
             // Fiscal year logic: if the start date is on or after July 1, use the current calendar year
             $fiscalYear = $this->startDate->month < 7 ? $year - 1 : $year;
 
-            return "{$this->name} FY" . substr($fiscalYear, -2);
+            return "{$this->name} FY".substr($fiscalYear, -2);
         } else {
             // Calendar year logic
-            return "{$this->name} CY" . substr($year, -2);
+            return "{$this->name} CY".substr($year, -2);
         }
     }
 }
