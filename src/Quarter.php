@@ -161,14 +161,25 @@ class Quarter extends Period
         );
     }
 
-    public function previous(): self
+    public function previous(int $count = 1): self
     {
-        $prevName = 'Q'.(($this->name === 'Q1') ? 4 : (int) substr($this->name, 1) - 1);
+        // Go back the appropriate number of months (1 quarter = 3 months)
+        $newStart = $this->startDate->copy()->subMonths($count * 3)->startOfMonth();
+        $newEnd = $newStart->copy()->addMonths(3)->subSecond(); // end of quarter
 
-        return new Quarter(
-            startDate: $this->startDate->subDay()->subMonths(2)->startOfMonth(),
-            endDate: $this->startDate->subDay()->setTime(23, 59, 59, 999999),
-            name: $prevName,
+        // Derive quarter name
+        $newMonth = $newStart->month;
+        $quarterNum = match (true) {
+            $newMonth <= 3 => 1,
+            $newMonth <= 6 => 2,
+            $newMonth <= 9 => 3,
+            default => 4,
+        };
+
+        return new self(
+            startDate: $newStart,
+            endDate: $newEnd,
+            name: 'Q'.$quarterNum,
             isFiscal: $this->isFiscal,
         );
     }

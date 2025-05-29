@@ -129,6 +129,18 @@ class QuarterTest extends TestCase
         $this->assertEquals($year - 1 .'-12-31', $firstQuarter->endDate->toDateString());
     }
 
+    public function test_get_previous_n_quarter(): void
+    {
+
+        $year = CarbonImmutable::today()->year;
+
+        $firstQuarter = Quarter::first()->previous(2);
+
+        $this->assertEquals($year - 1 .'-07-01', $firstQuarter->startDate->toDateString());
+        $this->assertEquals($year - 1 .'-09-30', $firstQuarter->endDate->toDateString());
+
+    }
+
     public function test_get_quarter_as_period_object(): void
     {
         $year = CarbonImmutable::today()->year;
